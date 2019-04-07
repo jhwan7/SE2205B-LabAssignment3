@@ -53,12 +53,11 @@ public abstract class Graph<V> implements GraphADT<V>{
             for(int i = parent.length-1;i!=s;) { //iterate through until i matches the start vertex
 
                 Vertex<V> j = getVertex(parent[i]); //Set the parent vertex of i to j
-                int flow = getEdge(j, getVertex(i)).flow;
 
                 getEdge(j,getVertex(i)).flow += bottleneck; //increment the all edges in the path by the bottle neck
 
                 insertEdge(getVertex(i), j, -bottleneck);//Insert edge to take consideration of back flow
-                getEdge(getVertex(i),j).flow -= -bottleneck; //Take back edge into consideration
+                getEdge(getVertex(i),j).flow = -bottleneck; //Take back edge into consideration
 
                 i = j.getLabel();  // set i index to j index so the for loop iterates the next parent of j
             }
