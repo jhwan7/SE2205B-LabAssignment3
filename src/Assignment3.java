@@ -6,15 +6,15 @@ public class Assignment3 implements GraphADT{
 
     List <Vertex<V>> parent = new ArrayList<Vertex<V>>(); // Holds the picture of visited nodes
 
-    public int breadthFirstPathSearch(Graph FN, int s, int d){
+    public int breadthFirstPathSearch(Graph FN, Vertex<v> s, Vertex<v> d){
         LinkedListQueue<Vertex<V>> llq = new LinkedListQueue(); //List to add the initial node and adjacent node
         int [] visited = new int[FN.numVertices()]; //Indicated whether the node the visited or not
 
         for(int b : visited){
             b = 0; // Initialize all of the array content to 0 to indicate unvisited (visited = 1, unvisited = 0)
         }
-        for(int nodeKey : parent){
-            nodeKey = -1; // first set parent list to all -1
+        for(Vertex<v> i : parent){
+            parent[i.getLabel()] = -1; // first set parent list to all -1
         }
         llq.enqueue(s); // Enqueue the initial node into the QueueLinkedLIst
         int vertex; // Reference Variable to hold a vertex
@@ -41,31 +41,30 @@ public class Assignment3 implements GraphADT{
     }
 
 
-    public void maximizeFlowNetwork(Graph fN, int s, int t){
-        int bottleneck = Integer.MAX_VALUE; //First set bottleneck to a high number
+    public void maximizeFlowNetwork(Graph fN, Vertex<v> s, Vertex<v> t){
 
         while(breadthFirstPathSearch(fN,s,t)==1){ //iterates until there is no path available
 
-            for(int i = parent.length-1;parent[i]!=s;){ //iterate through from the end node until the node matches the start node
+            int bottleneck = Integer.MAX_VALUE; //First set bottleneck to a high number
 
-                Vertex<v> j  = parent[i]; //Set vertex j to the parent node of i
+            for(Vertex<v> i = parent[parent.length -1];parent[i]!=s;){ //iterate through from the end node until the node matches the start node
 
-                System.out.println(j+"->"+i); //Shows what the parent is
+                Vertex<v> j  = parent[i.getLabel()]; //Set vertex j to the parent node of i
 
                 if(getEdge(j,i).flowCap - getEdge(j,i).flow < bottleneck){ //If the possible flow in the edge is less than the bottle cap
                     bottleneck = getEdge(j,i).flowCap - getEdge(j,i).flow; //Reset the bottle cap to the possible flow. This sets the bottleneck value to the lowest possible value
                 }
-                i = j.getLabel(); // set i index to j index so the for loop iterates the next parent of j
+                i = parent[j.getLabel()]; // set i index to j index so the for loop iterates the next parent of j
             }
-            for(int i = parent.length-1;i!=s;) { //iterate through until i matches the start vertex
+            for(Vertex<v> i = parent[parent.length-1];i!=s;) { //iterate through until i matches the start vertex
 
-                Vertex<v> j = parent[i]; //Set the parent vertex of i to j
+                Vertex<v> j = parent[i.getLabel()]; //Set the parent vertex of i to j
 
                 getEdge(j, i).flow += bottleneck; //increment the all edges in the path by the bottle neck
 
-                insertEdge(i, j, -bottleneck, -bottleneck); //Insert edge to take consideration of back flow
+                insertEdge(i, j, -bottleneck, -bottleneck); //Insert edge to take consideration of back flow - insertEdge(Vertex u, Vertex v, flow, flowCapacity)
 
-                i = j.getLabel();  // set i index to j index so the for loop iterates the next parent of j
+                i = parent[j.getLabel()];  // set i index to j index so the for loop iterates the next parent of j
             }
 
         }
