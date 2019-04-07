@@ -21,7 +21,7 @@ public class Assignment3 {
             snapshot.add(vertex); // Add the current vertex into the snapshot
             for(Edge e: outgoingEdges(vertex)){ // For each outgoing edge of the vertex
                 Vertex<V> op = opposite(vertex,e); //Get the opposite Vertex
-                if(visited[op.getLabel()] == 0) {// First Check if opposite node is visited
+                if(visited[op.getLabel()] == 0) {// First Check if opposite node is unvisited
                     if (e.flowCap - e.flow > 0) { //Second check if flow capacity is greater than the flow
                         llq.enqueue(op); //If all cases are true then enqueue the opposite vertex into the LinkedListQueue
                         visited[op.getLabel()] = 1; //Indicate that the Opposite Vertex is now visited
@@ -41,7 +41,7 @@ public class Assignment3 {
     public void maximizeFlowNetwork(Graph fN, int s, int t){
         int bottleneck = Integer.MAX_VALUE;
         boolean flag = true;
-        while(breadthFristPathSearch(fN,s,t)==1){
+        while(breadthFirstPathSearch(fN,s,t)==1){
             //System.out.println(parent[2]);
             //System.out.println(parent[parent.length-1]);
             //System.out.println(getEdge(1,parent[parent.length-1]).flowCap);
