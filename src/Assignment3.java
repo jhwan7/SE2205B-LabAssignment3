@@ -47,7 +47,7 @@ public class Assignment3 implements GraphADT{
 
             int bottleneck = Integer.MAX_VALUE; //First set bottleneck to a high number
 
-            for(Vertex<v> i = parent[parent.length -1];parent[i]!=s;){ //iterate through from the end node until the node matches the start node
+            for(Vertex<v> i = parent[parent.length -1];parent[i]!=s;){ //iterate through from the end vertex to the start vertex to find the bottle neck
 
                 Vertex<v> j  = parent[i.getLabel()]; //Set vertex j to the parent node of i
 
@@ -56,7 +56,7 @@ public class Assignment3 implements GraphADT{
                 }
                 i = parent[j.getLabel()]; // set i index to j index so the for loop iterates the next parent of j
             }
-            for(Vertex<v> i = parent[parent.length-1];i!=s;) { //iterate through until i matches the start vertex
+            for(Vertex<v> i = parent[parent.length-1];i!=s;) { //iterate through until i matches the start vertex and sets the flow to the bottle neck value
 
                 Vertex<v> j = parent[i.getLabel()]; //Set the parent vertex of i to j
 
@@ -69,8 +69,6 @@ public class Assignment3 implements GraphADT{
 
         }
 
-
-        //System.out.println("\nThe total Flow added is "+flowAdded);
     }
 
 }
